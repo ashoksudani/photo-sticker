@@ -43,5 +43,15 @@ module.exports = function(environment) {
 
   }
 
+  ENV.contentSecurityPolicy = {
+  'default-src': "'none'",
+  'script-src': "'self' https://cdn.mxpnl.com https://cdn.jsdelivr.net https://maxcdn.bootstrapcdn.com", // Allow scripts from https://cdn.mxpnl.com
+  'font-src': "'self' https://maxcdn.bootstrapcdn.com", // Allow fonts to be loaded from http://fonts.gstatic.com
+  'connect-src': "'self' https://api.mixpanel.com ", // Allow data (ajax/websocket) from api.mixpanel.com and custom-api.local
+  'img-src': "'self' data:",
+  'style-src': "'self' 'unsafe-inline' http://fonts.googleapis.com https://maxcdn.bootstrapcdn.com", // Allow inline styles and loaded CSS from http://fonts.googleapis.com 
+  'media-src': "'self'",
+}
+
   return ENV;
 };

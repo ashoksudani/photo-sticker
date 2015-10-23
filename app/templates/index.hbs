@@ -1,0 +1,24 @@
+<div class="container">
+	<div class="sticker-tray">
+		{{file-upload type="sticker" stickers=model.stickers}}
+		{{#each model.stickers as |sticker|}}
+			{{sticker-item url=sticker.url id=sticker.id}}
+		{{/each}}
+	</div>
+	<div class="remaining-storage">
+		Remaining storage: {{usedLocalStorageSpaceInPercenTage}}
+		<div class="storage-limit">
+			<div class="storage-used" style="width: {{localStorageRemainingSpace}}%">
+			</div>
+		</div>
+	</div>
+	<div class="photo-tray">
+		<div class="start-over  {{if startOver 'show' 'hidden'}}">
+			<button type="button" class="btn btn-danger" {{ action 'startOver'}}>Start Over</button>
+		</div>
+		<div class="photo-frame">
+			{{file-upload type="photo" photoURL=model.photoURL}}
+			{{photo-image photoURL=model.photoURL droppedStickers=model.droppedStickers stickers=model.stickers}}
+		</div>
+	</div>
+</div>

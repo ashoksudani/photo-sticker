@@ -51,3 +51,10 @@ Specify what it takes to deploy your app.
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
   * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
 
+## Problems faced during installation on windows
+* If your build is qutie slow install ember-clid-windows which will disable windows defenders to watch your project directory, dont forget to run execution policy comman from : https://github.com/felixrieseberg/ember-cli-windows/issues/24
+* If you are using sublime then it will observe your tmp directory which will break build repeatadely, disable it by using following options in user preference : 
+	"atomic_save": false,
+	"folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", "tmp/class-*", "tmp/es_*", "tmp/jshinter*", "tmp/replace_*", "tmp/static_compiler*", "tmp/template_compiler*", "tmp/tree_merger*", "tmp/coffee_script*", "tmp/concat-tmp*", "tmp/export_tree*", "tmp/sass_compiler*"]
+*
+
