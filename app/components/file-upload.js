@@ -19,9 +19,9 @@ export default Ember.Component.extend ({
   		return true;
   	}
   	var imageType = /^image\//;
-    return this.set('isValidFileType', imageType.test(fileType));
+    return imageType.test(fileType);
   }),
-
+  
   isEnoughSpaceForFile: Ember.computed("file", function() {
   	var file = this.get("file");
   	if(!file) {
