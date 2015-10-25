@@ -1,0 +1,7 @@
+<p class="bg-primary">Sticker library</p>
+{{sticker-upload-form stickers=model.stickers}}		
+<div class="text-center">
+	{{#each model.stickers as |sticker|}}
+		{{sticker-item url=sticker.url id=sticker.id stickers=model.stickers droppedStickers=model.droppedStickers}}
+	{{/each}}
+</div>

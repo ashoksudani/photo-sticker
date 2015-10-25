@@ -37,13 +37,13 @@ export default Ember.Component.extend({
 		e.preventDefault();
 	},
 
-	assignStickerURLs: Ember.observer('droppedStickers', function() {
+	assignStickerURLs: Ember.observer('droppedStickers.length', function() {
 		var stickers = store.get('stickers');
 		this.get('droppedStickers').forEach(function(item) {
-				item.url = stickers.findBy("id", item.id).url;
+				Ember.set(item, "url", stickers.findBy("id", item.id).url);
 		});
 	}),
-	
+
 	storeDroppedElement: function(e, stickerId) {
 		var sticker = this.get('stickers').findBy("id", Number(stickerId));
 		if(sticker) {

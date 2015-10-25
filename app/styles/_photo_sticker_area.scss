@@ -1,0 +1,71 @@
+.photo-area {
+    overflow: hidden;
+    background: #ddd;
+}
+
+.sticker-library {
+		float: right;
+    width: $sticker-library-width + 20;
+    min-height: 500px;
+    background: #eee;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.photo-area, .sticker-library {
+	height: 100%;
+}
+
+.sticker-item {
+	position: relative;
+}
+
+.sticker-item .delete-sticker{
+	display: none;
+}
+
+.sticker-item:hover .delete-sticker{
+	display: block;
+	position: absolute;
+	top:15px;
+	right:15px;
+}
+
+img.photo {
+	max-width: 400px;
+	min-width: 400px;
+	margin: 10px;
+}
+
+img.sticker {
+	max-width: $sticker-library-width;
+	max-height: $sticker-library-width;
+	margin-top: 10px;
+	cursor: move;
+}
+
+.photo-image {
+	position: relative;
+}
+
+img.sticker-drop {
+	width: 100px;
+	position: absolute;
+}
+
+.drag-start {
+	opacity: 7;
+}
+
+.drag-over {
+	border: 5px solid green;
+}
+
+.start-over  {
+	margin: 10px;
+}
+
+.bg-primary {
+	padding: 10px 15px;
+	font-size: 20px;
+}

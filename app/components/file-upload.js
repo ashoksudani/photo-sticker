@@ -2,11 +2,41 @@ import Ember from 'ember';
 
 export default Ember.Component.extend ({
 
+	localStorageCalc : Ember.inject.service("localStorageCalc"),
+
 	type: null,
 
-  isValidFileType: true,
+  fileInput: null,
 
-  isEnoughSpace: true,
+  fileInputChanged: Ember.observer("fileInput", function() {
+  	this.set('file', this.get('fileInput') && this.get('fileInput').files[0]);
+  	this.set('fileName', this.get('file') && this.get('file').name);
+  }),
+
+  isValidFileType: Ember.computed("file", function() {
+  	var fileType = this.get('file') && this.get('file').type;
+  	if(!fileType) {
+  		return true;
+  	}
+  	var imageType = /^image\//;
+    return this.set('isValidFileType', imageType.test(fileType));
+  }),
+
+  isEnoughSpaceForFile: Ember.computed("file", function() {
+  	var file = this.get("file");
+  	if(!file) {
+  		return true;
+  	}
+  	if(this.type == 'sticker'){
+  		return (file.size*2) < this.get('localStorageCalc').remainingLocalStorageSpace();
+  	}else{
+			return (file.size*2) < this.get('localStorageCalc').remainingLocalStorageSpaceForPhotoArea();
+  	}
+  }),
+
+	onUploadFile: Ember.observer("triggerFileUploadAction", function() {
+  		this.initUploadFile();
+  }),
 
   click: function(e) {
   	if($(e.target).hasClass("upload-file-btn")) {
@@ -17,26 +47,30 @@ export default Ember.Component.extend ({
   },
 
   change: function(e) {
-  	var self = this;
-    var fileInput = e.target;
-    var file = fileInput.files[0]; 
-    $(fileInput).val(null);
-    this.validateFileType(file);
-    this.isEnoughSpaceForFile(file);
-    this.uploadImage(file);
+  	this.set('fileInput', e.target);
+  	this.notifyPropertyChange('fileInput');
+    if(!this.get('uploadFileOnAction')) {
+    	this.initUploadFile();
+    };
   },
 
-  validateFileType : function (file) {
-		var imageType = /^image\//;
-    this.set('isValidFileType', imageType.test(file.type));
+  initUploadFile: function() {
+  	var fileInput = this.get('fileInput');
+  	if(!fileInput) {
+  		return;	
+  	}
+    this.uploadFile();
+    this.resetFile();
   },
 
-  isEnoughSpaceForFile: function(file) {
-  	this.get('targetObject')
+  resetFile: function() {
+  	$(this.get('fileInput')).val(null);
+    this.set('fileName', null);
   },
 
-  uploadImage: function(file) {
-  	if(!this.get('isValidFileType')) {
+  uploadFile: function() {
+  	var file = this.get("file");
+  	if(!this.get('isValidFileType') || !this.get('isEnoughSpaceForFile')) {
   		return;
   	}
   	var self = this;
@@ -57,13 +91,13 @@ export default Ember.Component.extend ({
   storeStickers: function(imageURL) {
   	try {
   		var stickers = store.get('stickers') || [];
-    	stickers.push({"url" : imageURL, "id" : stickers.length+1});
+    	stickers.push({"url" : imageURL, "id" : stickers.length+1, "title" : this.get('title')});
     	store.set("stickers", stickers);
     	this.set('stickers', stickers);
+    	this.sendAction();
   	}catch(e) {
   		console.error(e);
   	}
-  	
   },
 
   storePhoto: function(imageURL) {

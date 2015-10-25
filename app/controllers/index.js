@@ -2,26 +2,23 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 	
+	localStorageCalc : Ember.inject.service("localStorageCalc"),
+
 	startOver: Ember.on("init", Ember.computed('model.photoURL', 'model.stickers',  function() {	
 		return (this.get('model.stickers') && this.get('model.stickers').length) || this.get('model.photoURL');
 	})),
 
-	usedLocalStorageSpaceInPercenTage : Ember.computed('usedLocalStorageSpace', function() {
-		return ((5 * (1024 * 1024)) * 100) / this.get('usedLocalStorageSpace');
-	}),
+	remainingLocalStorageSpaceInPercenTage : Ember.on("init", Ember.computed('model.photoURL', 'model.stickers', function() {
+		return this.get('localStorageCalc').remainingLocalStorageSpaceInPercenTage();
+	})),
 
-	usedLocalStorageSpace: Ember.on("init", Ember.computed('model.photoURL', 'model.stickers', function() {
-    var totalStorage = 0;
-    for (var item in localStorage) {
-        var itemStorage = (localStorage[item].length * 2);
-        totalStorage += itemStorage;
-    }
-    return (5 * (1024 * 1024)) - totalStorage ;
+	remainingLocalStorageSpaceInMB  : Ember.on("init", Ember.computed('model.photoURL', 'model.stickers', function() {
+		return this.get('localStorageCalc').remainingLocalStorageSpaceInMB();
 	})),
 
 	actions: {
 		startOver: function() {
-			if(window.confirm("are you sure to start over?")) {
+			if(window.confirm("Are you sure to start over? it will clear all images!")) {
 				this.clearStore();
 				this.set('model.photoURL', null);
 				this.set('model.stickers', []);

@@ -1,4 +1,4 @@
-$sticker-tray-width: 150px;
+$sticker-library-width: 150px;
 
 body  {
 	background: #ccc;
@@ -12,67 +12,5 @@ body  {
 	bottom:20px;
 }
 
-.start-over  {
-	margin: 10px;
-}
-
-.photo-tray {
-    overflow: hidden;
-    background: #ddd;
-}
-
-.sticker-tray {
-		float: right;
-    width: $sticker-tray-width + 20;
-    min-height: 500px;
-    background: #eee;
-    overflow-x: hidden;
-    overflow-y: auto; 
-}
-
-
-.photo-tray, .sticker-tray {
-	padding: 10px;
-	text-align: center;
-	height: 100%;
-}
-
-img.photo {
-	max-width: 400px;
-	min-width: 400px;
-	margin: 10px;
-}
-
-img.sticker {
-	max-width: $sticker-tray-width;
-	max-height: $sticker-tray-width;
-	margin-top: 10px;
-	cursor: move;
-}
-
-.photo-image {
-	position: relative;
-}
-
-img.sticker-drop {
-	width: 100px;
-	position: absolute;
-}
-
-.drag-start {
-	opacity: 7;
-}
-
-.drag-over {
-	border: 5px solid green;
-}
-
-.remaining-storage {
-	position: absolute;
-	left:0px;
-	top:0px;
-	width:200px;
-	height:100px;
-}
-
-
+@import "_photo_sticker_area.scss";
+@import "_storage_bar.scss";

@@ -1,0 +1,19 @@
+<p class="bg-primary">Photo area</p>
+<div class="start-over text-center {{if startOver 'show' 'hidden'}}">
+	<button type="button" class="btn btn-danger" {{ action 'startOver'}}>Start Over</button>
+</div>
+<div class="frame">
+	<div class="text-center">
+	{{file-upload type="photo" photoURL=model.photoURL}}
+	{{photo-image photoURL=model.photoURL droppedStickers=model.droppedStickers stickers=model.stickers}}
+	</div>
+</div>
+
+<div class="remaining-space">
+	Remaining space out of 5MB: 
+	<div class="storage-limit">
+		<label>{{remainingLocalStorageSpaceInMB}}MB</label>
+		<div class="remining-space-display" style="width: {{remainingLocalStorageSpaceInPercenTage}}%"></div>
+	</div>
+</div>
+
