@@ -9,8 +9,10 @@ export default Ember.Component.extend ({
   fileInput: null,
 
   fileInputChanged: Ember.observer("fileInput", function() {
+  	Ember.beginPropertyChanges();
   	this.set('file', this.get('fileInput') && this.get('fileInput').files[0]);
   	this.set('fileName', this.get('file') && this.get('file').name);
+  	Ember.endPropertyChanges();
   }),
 
   isValidFileType: Ember.computed("file", function() {
@@ -21,7 +23,7 @@ export default Ember.Component.extend ({
   	var imageType = /^image\//;
     return imageType.test(fileType);
   }),
-  
+
   isEnoughSpaceForFile: Ember.computed("file", function() {
   	var file = this.get("file");
   	if(!file) {
@@ -37,6 +39,17 @@ export default Ember.Component.extend ({
 	onUploadFile: Ember.observer("triggerFileUploadAction", function() {
   		this.initUploadFile();
   }),
+
+  onInvalidFileType: Ember.observer("isValidFileType", function() {
+  	if(!this.get("isValidFileType")) {
+  		this.resetFile();
+  	}
+  }),
+
+  resetFile: function() {
+  	$(this.get('fileInput')).val(null);
+    this.set('fileName', null);	
+  },
 
   click: function(e) {
   	if($(e.target).hasClass("upload-file-btn")) {
@@ -61,11 +74,6 @@ export default Ember.Component.extend ({
   	}
     this.uploadFile();
     this.resetFile();
-  },
-
-  resetFile: function() {
-  	$(this.get('fileInput')).val(null);
-    this.set('fileName', null);
   },
 
   uploadFile: function() {
